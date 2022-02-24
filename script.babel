@@ -1,0 +1,67 @@
+const initialState=`
+# heading
+## heading 2
+
+[A link](www.facebook.com)
+
+Inline \`<div></div>\`
+
+block code
+
+\`\`\`
+let x=1;
+\`\`\`
+
+
+- list item 1
+- list item 2
+
+![React](https://upload.wikimedia.org/wikipedia/commons/1/18/React_Native_Logo.png)
+
+
+**Bold Text**
+
+> Block Quotes!
+
+`;
+
+
+//a header (H1 size), a sub header (H2 size), a link, inline code, a code block, a list item, a blockquote, an image, and bolded text.
+
+class App extends React.Component {
+  state = {
+    text : initialState
+  }
+  handleChange = (e) => {
+    this.setState ({
+      text : e.target.value
+    })
+  }
+  
+  render() {
+    
+    const { text } = this.state;
+    
+    const markdown = marked(text, { breaks : true});
+    
+    return (
+      <div>
+        <h2 className="text-center m-4">Convert Markdown</h2>
+        <div className="row">
+          <div className="col-6">
+            <h6 className="text-center">Markdown:</h6>
+            <textarea className="form-control p-2" id="editor" value={text} onChange= {this.handleChange} />
+          </div>
+          
+          <div className="col-6" >
+            <h6 className="text-center">Result:</h6>
+            <div className="preview rounded p-2" dangerouslySetInnerHTML={{__html: markdown}} id="preview"/>
+            
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(<App />, document.getElementById("app"));
